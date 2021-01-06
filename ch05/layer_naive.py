@@ -1,6 +1,3 @@
-# coding: utf-8
-
-
 class MulLayer:
     def __init__(self):
         self.x = None

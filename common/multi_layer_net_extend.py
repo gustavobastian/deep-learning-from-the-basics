@@ -7,24 +7,6 @@ from common.layers import *
 from common.gradient import numerical_gradient
 
 class MultiLayerNetExtend:
-    """拡張版の全結合による多層ニューラルネットワーク
-    
-    Weiht Decay、Dropout、Batch Normalizationの機能を持つ
-
-    Parameters
-    ----------
-    input_size : 入力サイズ（MNISTの場合は784）
-    hidden_size_list : 隠れ層のニューロンの数のリスト（e.g. [100, 100, 100]）
-    output_size : 出力サイズ（MNISTの場合は10）
-    activation : 'relu' or 'sigmoid'
-    weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-        'relu'または'he'を指定した場合は「Heの初期値」を設定
-        'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
-    weight_decay_lambda : Weight Decay（L2ノルム）の強さ
-    use_dropout: Dropoutを使用するかどうか
-    dropout_ration : Dropoutの割り合い
-    use_batchNorm: Batch Normalizationを使用するかどうか
-    """
     def __init__(self, input_size, hidden_size_list, output_size,
                  activation='relu', weight_init_std='relu', weight_decay_lambda=0, 
                  use_dropout = False, dropout_ration = 0.5, use_batchnorm=False):
@@ -37,10 +19,8 @@ class MultiLayerNetExtend:
         self.use_batchnorm = use_batchnorm
         self.params = {}
 
-        # 重みの初期化
         self.__init_weight(weight_init_std)
 
-        # レイヤの生成
         activation_layer = {'sigmoid': Sigmoid, 'relu': Relu}
         self.layers = OrderedDict()
         for idx in range(1, self.hidden_layer_num+1):
@@ -62,14 +42,6 @@ class MultiLayerNetExtend:
         self.last_layer = SoftmaxWithLoss()
 
     def __init_weight(self, weight_init_std):
-        """重みの初期値設定
-
-        Parameters
-        ----------
-        weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-            'relu'または'he'を指定した場合は「Heの初期値」を設定
-            'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
-        """
         all_size_list = [self.input_size] + self.hidden_size_list + [self.output_size]
         for idx in range(1, len(all_size_list)):
             scale = weight_init_std
@@ -90,9 +62,6 @@ class MultiLayerNetExtend:
         return x
 
     def loss(self, x, t, train_flg=False):
-        """損失関数を求める
-        引数のxは入力データ、tは教師ラベル
-        """
         y = self.predict(x, train_flg)
 
         weight_decay = 0
@@ -111,19 +80,6 @@ class MultiLayerNetExtend:
         return accuracy
 
     def numerical_gradient(self, x, t):
-        """勾配を求める（数値微分）
-
-        Parameters
-        ----------
-        x : 入力データ
-        t : 教師ラベル
-
-        Returns
-        -------
-        各層の勾配を持ったディクショナリ変数
-            grads['W1']、grads['W2']、...は各層の重み
-            grads['b1']、grads['b2']、...は各層のバイアス
-        """
         loss_W = lambda W: self.loss(x, t, train_flg=True)
 
         grads = {}
@@ -150,7 +106,6 @@ class MultiLayerNetExtend:
         for layer in layers:
             dout = layer.backward(dout)
 
-        # 設定
         grads = {}
         for idx in range(1, self.hidden_layer_num+2):
             grads['W' + str(idx)] = self.layers['Affine' + str(idx)].dW + self.weight_decay_lambda * self.params['W' + str(idx)]

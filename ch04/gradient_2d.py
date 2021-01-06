@@ -1,5 +1,3 @@
-# coding: utf-8
-# cf.http://d.hatena.ne.jp/white_wheels/20100327/p3
 import numpy as np
 import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -18,7 +16,7 @@ def _numerical_gradient_no_batch(f, x):
         fxh2 = f(x)  # f(x-h)
         grad[idx] = (fxh1 - fxh2) / (2*h)
         
-        x[idx] = tmp_val  # 値を元に戻す
+        x[idx] = tmp_val
         
     return grad
 

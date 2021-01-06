@@ -1,7 +1,5 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
-import numpy as np
+sys.path.append(os.pardir)
 import matplotlib.pyplot as plt
 from collections import OrderedDict
 from common.optimizer import *
@@ -61,8 +59,6 @@ for key in optimizers:
     plt.ylim(-10, 10)
     plt.xlim(-10, 10)
     plt.plot(0, 0, '+')
-    #colorbar()
-    #spring()
     plt.title(key)
     plt.xlabel("x")
     plt.ylabel("y")

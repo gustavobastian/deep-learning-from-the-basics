@@ -8,19 +8,6 @@ from common.gradient import numerical_gradient
 
 
 class MultiLayerNet:
-    """全結合による多層ニューラルネットワーク
-
-    Parameters
-    ----------
-    input_size : 入力サイズ（MNISTの場合は784）
-    hidden_size_list : 隠れ層のニューロンの数のリスト（e.g. [100, 100, 100]）
-    output_size : 出力サイズ（MNISTの場合は10）
-    activation : 'relu' or 'sigmoid'
-    weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-        'relu'または'he'を指定した場合は「Heの初期値」を設定
-        'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
-    weight_decay_lambda : Weight Decay（L2ノルム）の強さ
-    """
     def __init__(self, input_size, hidden_size_list, output_size,
                  activation='relu', weight_init_std='relu', weight_decay_lambda=0):
         self.input_size = input_size
@@ -30,10 +17,8 @@ class MultiLayerNet:
         self.weight_decay_lambda = weight_decay_lambda
         self.params = {}
 
-        # 重みの初期化
         self.__init_weight(weight_init_std)
 
-        # レイヤの生成
         activation_layer = {'sigmoid': Sigmoid, 'relu': Relu}
         self.layers = OrderedDict()
         for idx in range(1, self.hidden_layer_num+1):
@@ -48,14 +33,6 @@ class MultiLayerNet:
         self.last_layer = SoftmaxWithLoss()
 
     def __init_weight(self, weight_init_std):
-        """重みの初期値設定
-
-        Parameters
-        ----------
-        weight_init_std : 重みの標準偏差を指定（e.g. 0.01）
-            'relu'または'he'を指定した場合は「Heの初期値」を設定
-            'sigmoid'または'xavier'を指定した場合は「Xavierの初期値」を設定
-        """
         all_size_list = [self.input_size] + self.hidden_size_list + [self.output_size]
         for idx in range(1, len(all_size_list)):
             scale = weight_init_std
@@ -74,17 +51,6 @@ class MultiLayerNet:
         return x
 
     def loss(self, x, t):
-        """損失関数を求める
-
-        Parameters
-        ----------
-        x : 入力データ
-        t : 教師ラベル
-
-        Returns
-        -------
-        損失関数の値
-        """
         y = self.predict(x)
 
         weight_decay = 0
@@ -103,19 +69,6 @@ class MultiLayerNet:
         return accuracy
 
     def numerical_gradient(self, x, t):
-        """勾配を求める（数値微分）
-
-        Parameters
-        ----------
-        x : 入力データ
-        t : 教師ラベル
-
-        Returns
-        -------
-        各層の勾配を持ったディクショナリ変数
-            grads['W1']、grads['W2']、...は各層の重み
-            grads['b1']、grads['b2']、...は各層のバイアス
-        """
         loss_W = lambda W: self.loss(x, t)
 
         grads = {}
@@ -126,19 +79,6 @@ class MultiLayerNet:
         return grads
 
     def gradient(self, x, t):
-        """勾配を求める（誤差逆伝搬法）
-
-        Parameters
-        ----------
-        x : 入力データ
-        t : 教師ラベル
-
-        Returns
-        -------
-        各層の勾配を持ったディクショナリ変数
-            grads['W1']、grads['W2']、...は各層の重み
-            grads['b1']、grads['b2']、...は各層のバイアス
-        """
         # forward
         self.loss(x, t)
 
@@ -151,7 +91,6 @@ class MultiLayerNet:
         for layer in layers:
             dout = layer.backward(dout)
 
-        # 設定
         grads = {}
         for idx in range(1, self.hidden_layer_num+2):
             grads['W' + str(idx)] = self.layers['Affine' + str(idx)].dW + self.weight_decay_lambda * self.layers['Affine' + str(idx)].W

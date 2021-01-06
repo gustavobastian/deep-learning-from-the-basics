@@ -1,10 +1,9 @@
-# coding: utf-8
 import numpy as np
 import matplotlib.pylab as plt
 
 
 def numerical_diff(f, x):
-    h = 1e-4 # 0.0001
+    h = 1e-4  # 0.0001
     return (f(x+h) - f(x-h)) / (2*h)
 
 
@@ -17,7 +16,8 @@ def tangent_line(f, x):
     print(d)
     y = f(x) - d*x
     return lambda t: d*t + y
-     
+
+
 x = np.arange(0.0, 20.0, 0.1)
 y = function_1(x)
 plt.xlabel("x")

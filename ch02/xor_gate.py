@@ -1,4 +1,3 @@
-# coding: utf-8
 from and_gate import AND
 from or_gate import OR
 from nand_gate import NAND

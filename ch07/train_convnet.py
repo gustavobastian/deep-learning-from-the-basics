@@ -1,18 +1,17 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
+sys.path.append(os.pardir)
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from simple_convnet import SimpleConvNet
 from common.trainer import Trainer
 
-# データの読み込み
+
 (x_train, t_train), (x_test, t_test) = load_mnist(flatten=False)
 
-# 処理に時間のかかる場合はデータを削減 
-#x_train, t_train = x_train[:5000], t_train[:5000]
-#x_test, t_test = x_test[:1000], t_test[:1000]
+# Reduce data if it takes too long to process
+# x_train, t_train = x_train[:5000], t_train[:5000]
+# x_test, t_test = x_test[:1000], t_test[:1000]
 
 max_epochs = 20
 
@@ -26,11 +25,9 @@ trainer = Trainer(network, x_train, t_train, x_test, t_test,
                   evaluate_sample_num_per_epoch=1000)
 trainer.train()
 
-# パラメータの保存
 network.save_params("params.pkl")
 print("Saved Network Parameters!")
 
-# グラフの描画
 markers = {'train': 'o', 'test': 's'}
 x = np.arange(max_epochs)
 plt.plot(x, trainer.train_acc_list, marker='o', label='train', markevery=2)

@@ -1,19 +1,15 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
-import numpy as np
+sys.path.append(os.pardir)
 import matplotlib.pyplot as plt
 from simple_convnet import SimpleConvNet
 from matplotlib.image import imread
 from common.layers import Convolution
 
-def filter_show(filters, nx=4, show_num=16):
+
+def filter_show(filters, show_num=16):
     """
     c.f. https://gist.github.com/aidiary/07d530d5e08011832b12#file-draw_weight-py
     """
-    FN, C, FH, FW = filters.shape
-    ny = int(np.ceil(show_num / nx))
-
     fig = plt.figure()
     fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
 
@@ -23,13 +19,13 @@ def filter_show(filters, nx=4, show_num=16):
 
 
 network = SimpleConvNet(input_dim=(1,28,28), 
-                        conv_param = {'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
+                        conv_param={'filter_num':30, 'filter_size':5, 'pad':0, 'stride':1},
                         hidden_size=100, output_size=10, weight_init_std=0.01)
 
-# 学習後の重み
+
 network.load_params("params.pkl")
 
-filter_show(network.params['W1'], 16)
+filter_show(network.params['W1'])
 
 img = imread('../dataset/lena_gray.png')
 img = img.reshape(1, 1, *img.shape)

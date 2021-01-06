@@ -1,11 +1,10 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
+sys.path.append(os.pardir)
 import numpy as np
 from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
-# データの読み込み
+
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
 
 network = TwoLayerNet(input_size=784, hidden_size=50, output_size=10)

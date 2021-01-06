@@ -1,6 +1,5 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
+sys.path.append(os.pardir)
 import numpy as np
 from common.functions import softmax, cross_entropy_error
 from common.gradient import numerical_gradient
@@ -19,6 +18,7 @@ class simpleNet:
         loss = cross_entropy_error(y, t)
 
         return loss
+
 
 x = np.array([0.6, 0.9])
 t = np.array([0, 0, 1])

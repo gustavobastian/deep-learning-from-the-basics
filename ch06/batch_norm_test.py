@@ -1,15 +1,14 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
+sys.path.append(os.pardir)
 import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from common.multi_layer_net_extend import MultiLayerNetExtend
 from common.optimizer import SGD, Adam
 
+
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 
-# 学習データを削減
 x_train = x_train[:1000]
 t_train = t_train[:1000]
 
@@ -56,19 +55,18 @@ def __train(weight_init_std):
     return train_acc_list, bn_train_acc_list
 
 
-# 3.グラフの描画==========
 weight_scale_list = np.logspace(0, -4, num=16)
 x = np.arange(max_epochs)
 
 for i, w in enumerate(weight_scale_list):
-    print( "============== " + str(i+1) + "/16" + " ==============")
+    print("============== " + str(i+1) + "/16" + " ==============")
     train_acc_list, bn_train_acc_list = __train(w)
     
-    plt.subplot(4,4,i+1)
+    plt.subplot(4, 4, i+1)
     plt.title("W:" + str(w))
     if i == 15:
         plt.plot(x, bn_train_acc_list, label='Batch Normalization', markevery=2)
-        plt.plot(x, train_acc_list, linestyle = "--", label='Normal(without BatchNorm)', markevery=2)
+        plt.plot(x, train_acc_list, linestyle="--", label='Normal(without BatchNorm)', markevery=2)
     else:
         plt.plot(x, bn_train_acc_list, markevery=2)
         plt.plot(x, train_acc_list, linestyle="--", markevery=2)

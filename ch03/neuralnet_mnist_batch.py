@@ -1,6 +1,5 @@
-# coding: utf-8
 import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
+sys.path.append(os.pardir)
 import numpy as np
 import pickle
 from dataset.mnist import load_mnist
@@ -35,7 +34,7 @@ def predict(network, x):
 x, t = get_data()
 network = init_network()
 
-batch_size = 100 # バッチの数
+batch_size = 100
 accuracy_cnt = 0
 
 for i in range(0, len(x), batch_size):
