@@ -2,9 +2,9 @@ Deep Learning from the Basics
 =============================
 
 
-[<img src="https://raw.githubusercontent.com/oreilly-japan/deep-learning-from-scratch/images/deep-learning-from-scratch.png" width="200px">](https://www.oreilly.co.jp/books/9784873117584/)
+[<img src="https://raw.githubusercontent.com/koki0702/deep-learning-from-scratch/images/deep-learning-from-scratch.png" width="200px">](https://www.oreilly.co.jp/books/9784873117584/)
 
-This is a support site for the book "[Deep Learnnig from the Basics](...)" (Packt Publishing). The source code used in this book is summarized here.
+This is a support site for the book "[Deep Learnnig from the Basics](https://www.packtpub.com/data/deep-learning-from-the-basics)" (Packt Publishing). The source code used in this book is summarized here.
 
 
 ## file structure
